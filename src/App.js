@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import escapeRegExp from 'escape-string-regexp'
 
+let intialTasks = [
+  "finsih react project",
+ "Finish Redux Tutorials",
+ "Learn more about Relay",
+ "Build 5 more React apps",
+ "Review React Component Lifecycle",
+ "Learn Algorithms",
+ "Tweet Progress",
+ "Get a coffee!",
+"Learn more about React Native"
+];
 
 class App extends Component {
+
+
   state = {
-    tasks:[
-      "finsih react project",
-     "Finish Redux Tutorials",
-     "Learn more about Relay",
-     "Build 5 more React apps",
-     "Review React Component Lifecycle",
-     "Learn Algorithms",
-     "Tweet Progress",
-     "Get a coffee!",
-    "Learn more about React Native"
-],
+    tasks:intialTasks,
 newItem:'',
 query:''
   }
@@ -32,6 +35,17 @@ updateItem = (newItem) => {
   this.state.tasks.push(this.state.newItem)
   this.setState({newItem:''}) //need to update UI
 }
+
+
+handleReset = () => {
+  this.setState({ tasks: intialTasks })
+
+}
+
+handleClear = () => {
+  this.setState({tasks: []})
+}
+
 
 
   render() {
@@ -63,6 +77,8 @@ updateItem = (newItem) => {
         onChange = {event => this.updateQuery(event.target.value)}
         />
        <button onClick = { this.updateItem}>Add New Task</button>
+       <button onClick = { this.handleClear}>Clear the list </button>
+       <button onClick = { this.handleReset}>Reset the list</button>
        {showingTask.map((task, index) => <p align='center' key={index}>{task}</p>)}
       </div>
     );
