@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import escapeRegExp from 'escape-string-regexp'
+import TaskDetail from './TaskDetails'
 
 let intialTasks = [
-  "finsih react project",
+  "Finish react project",
  "Finish Redux Tutorials",
  "Learn more about Relay",
  "Build 5 more React apps",
@@ -46,8 +47,11 @@ handleClear = () => {
   this.setState({tasks: []})
 }
 
+handleDelete = (tasks) => {this.setState((state) => ({
+   tasks:state.tasks.filter((d) => d !== tasks )
 
-
+  }))
+}
   render() {
     let showingTask
    let {query, tasks} = this.state;
@@ -79,7 +83,8 @@ handleClear = () => {
        <button onClick = { this.updateItem}>Add New Task</button>
        <button onClick = { this.handleClear}>Clear the list </button>
        <button onClick = { this.handleReset}>Reset the list</button>
-       {showingTask.map((task, index) => <p align='center' key={index}>{task}</p>)}
+       <TaskDetail tasks = {showingTask}
+        handleDelete = { this.handleDelete} />
       </div>
     );
   }
