@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import escapeRegExp from 'escape-string-regexp'
 
 
 class App extends Component {
@@ -14,11 +15,16 @@ class App extends Component {
      "Get a coffee!",
     "Learn more about React Native"
 ],
-newItem:''
+newItem:'',
+query:''
   }
 
 handleChange = (newItem) => {
-  this.setState({newItem:newItem.trim()})
+  this.setState({newItem})
+}
+
+updateQuery = (query) => {
+  this.setState({query})
 }
 
 updateItem = (newItem) => {
@@ -26,7 +32,20 @@ updateItem = (newItem) => {
   this.state.tasks.push(this.state.newItem)
   this.setState({newItem:''}) //need to update UI
 }
+
+
   render() {
+    let showingTask
+   let {query, tasks} = this.state;
+
+   if(query){
+     const match = new RegExp(escapeRegExp(query), 'i')
+     showingTask = tasks.filter(task => match.test(task))
+   }
+  else {
+    showingTask = tasks
+  }
+
     return (
       <div className="App">
        <h1 align="center">TODO List </h1>
@@ -37,8 +56,14 @@ updateItem = (newItem) => {
         value = {this.state.newItem}
         onChange = {event => this.handleChange(event.target.value)}
        />
+       <input
+        type = 'text'
+        placeholder = 'Search the task '
+        value = { this.state.query}
+        onChange = {event => this.updateQuery(event.target.value)}
+        />
        <button onClick = { this.updateItem}>Add New Task</button>
-       {this.state.tasks.map((task, index) => <p align='center' key={index}>{task}</p>)}
+       {showingTask.map((task, index) => <p align='center' key={index}>{task}</p>)}
       </div>
     );
   }
